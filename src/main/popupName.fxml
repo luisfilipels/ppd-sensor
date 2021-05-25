@@ -6,18 +6,21 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="472.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="readData.Controller">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="472.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.ReadDataController">
    <children>
-      <Button fx:id="confirmButton" layoutX="158.0" layoutY="321.0" mnemonicParsing="false" onAction="#handleConfirmButton" prefHeight="44.0" prefWidth="87.0" text="Aceitar" />
+      <Button fx:id="confirmButton" layoutX="161.0" layoutY="380.0" mnemonicParsing="false" onAction="#onConfirmButton" prefHeight="44.0" prefWidth="87.0" text="Aceitar" />
       <TextField fx:id="remoteMachineAddressField" layoutX="62.0" layoutY="37.0" prefHeight="32.0" prefWidth="279.0" />
       <Text layoutX="123.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Endereço da máquina remota" />
-      <RadioButton fx:id="temperatureButton" layoutX="59.0" layoutY="110.0" mnemonicParsing="false" onAction="#onRadioButtonClick" text="Temperatura" />
-      <Text layoutX="62.0" layoutY="97.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tipo de sensor:" />
-      <RadioButton fx:id="velocityButton" layoutX="59.0" layoutY="135.0" mnemonicParsing="false" onAction="#onRadioButtonClick" text="Velocidade" />
-      <RadioButton fx:id="humidityButton" layoutX="59.0" layoutY="162.0" mnemonicParsing="false" onAction="#onRadioButtonClick" text="Umidade" />
-      <TextField fx:id="initialMaxValueField" layoutX="64.0" layoutY="224.0" />
-      <Text layoutX="64.0" layoutY="220.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Valor máximo inicial" />
-      <TextField fx:id="initialMinValueField" layoutX="64.0" layoutY="274.0" />
-      <Text layoutX="64.0" layoutY="270.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Valor mínimo inicial" />
+      <RadioButton fx:id="temperatureButton" layoutX="62.0" layoutY="169.0" mnemonicParsing="false" onAction="#onRadioButtonClick" text="Temperatura" />
+      <Text layoutX="65.0" layoutY="156.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tipo de sensor:" />
+      <RadioButton fx:id="velocityButton" layoutX="62.0" layoutY="194.0" mnemonicParsing="false" onAction="#onRadioButtonClick" text="Velocidade" />
+      <RadioButton fx:id="humidityButton" layoutX="62.0" layoutY="221.0" mnemonicParsing="false" onAction="#onRadioButtonClick" text="Umidade" />
+      <TextField fx:id="initialMaxValueField" layoutX="67.0" layoutY="283.0" />
+      <Text layoutX="67.0" layoutY="279.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Valor máximo inicial" />
+      <TextField fx:id="initialMinValueField" layoutX="67.0" layoutY="333.0" />
+      <Text layoutX="67.0" layoutY="329.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Valor mínimo inicial" />
+      <TextField fx:id="sensorIDField" layoutX="62.0" layoutY="102.0" prefHeight="32.0" prefWidth="165.0" />
+      <Text layoutX="62.0" layoutY="97.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Identificação do sensor" />
+      <Button fx:id="randomIDButton" layoutX="237.0" layoutY="102.0" mnemonicParsing="false" onAction="#onRandomIDButton" prefHeight="32.0" prefWidth="105.0" text="ID aleatória" />
    </children>
 </Pane>

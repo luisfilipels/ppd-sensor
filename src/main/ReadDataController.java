@@ -1,4 +1,4 @@
-package readData;
+package main;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -9,18 +9,17 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import networking.NetworkHandlerSingleton;
-import utils.SensorDataSingleton;
+import utils.SensorSingleton;
 import utils.SensorType;
-import utils.SessionDataSingleton;
 
 import java.io.IOException;
+import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Controller {
+public class ReadDataController {
 
     private SensorType type;
 
@@ -42,6 +41,12 @@ public class Controller {
     @FXML
     private TextField initialMinValueField;
 
+    @FXML
+    private Button randomIDButton;
+
+    @FXML
+    private TextField sensorIDField;
+
     private static final String PATTERN =
             "^([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +
                     "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +
@@ -53,6 +58,27 @@ public class Controller {
         Pattern pattern = Pattern.compile(PATTERN);
         Matcher matcher = pattern.matcher(ip);
         return matcher.matches();
+    }
+
+    // Got this function from Baeldung
+    public String generateRandomID() {
+        int leftLimit = 48; // numeral '0'
+        int rightLimit = 122; // letter 'z'
+        int targetStringLength = 10;
+        Random random = new Random();
+
+        String generatedString = random.ints(leftLimit, rightLimit + 1)
+                .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97))
+                .limit(targetStringLength)
+                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                .toString();
+
+        return generatedString;
+    }
+
+    @FXML
+    public void onRandomIDButton(ActionEvent event) {
+        sensorIDField.setText(generateRandomID());
     }
 
     @FXML
@@ -82,18 +108,19 @@ public class Controller {
     }
 
     @FXML
-    public void handleConfirmButton (ActionEvent event) {
+    public void onConfirmButton(ActionEvent event) {
         // TODO: Select server IP
         // TODO: Validate values
 
         int initialMax = Integer.parseInt(initialMaxValueField.getText());
         int initialMin = Integer.parseInt(initialMinValueField.getText());
 
-        SensorDataSingleton sensor = SensorDataSingleton.getInstance();
+        SensorSingleton sensor = SensorSingleton.getInstance();
         sensor.setMaxReading(initialMax);
         sensor.setMinReading(initialMin);
         sensor.setNewReading((initialMax + initialMin)/2);
         sensor.setSensorType(type);
+        sensor.setSensorID(sensorIDField.getText());
 
         NetworkHandlerSingleton.getInstance().initialize();
 
@@ -101,22 +128,16 @@ public class Controller {
         Stage stage = (Stage) source.getScene().getWindow();
         stage.close();
 
-        Parent root = null;
         try {
-            root = FXMLLoader.load(getClass().getResource("main.fxml"));
-        } catch (IOException e) {
+            Stage primaryStage = new Stage();
+            Parent root = FXMLLoader.load(getClass().getResource("../main/main.fxml"));
+            primaryStage.setTitle("Othello P2P");
+            primaryStage.setScene(new Scene(root, 600, 400));
+            primaryStage.setResizable(false);
+            primaryStage.show();
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        Stage mainStage = new Stage();
-        FXMLLoader loader = new FXMLLoader(
-                getClass().getResource("main.fxml")
-        );
-        // TODO: Fix this
-        Parent main = loader.load();
-        mainStage.setTitle("Sensor");
-        mainStage.setScene(new Scene(root, 600, 400));
-        mainStage.setResizable(false);
-        mainStage.show();
     }
 
 }

@@ -1,20 +1,12 @@
 package main;
 
 import javafx.scene.control.*;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
-import javafx.beans.property.ReadOnlyStringWrapper;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.geometry.HPos;
-import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
-import networking.NetworkHandlerSingleton;
-import utils.SensorDataSingleton;
-import utils.SessionDataSingleton;
+import utils.SensorSingleton;
 
-public class Controller {
+public class MainViewController {
+
     @FXML
     private Text readingExhibit;
     @FXML
@@ -37,8 +29,13 @@ public class Controller {
     @FXML
     private Button confirmNewMinValue;
 
+    @FXML
+    void initialize() {
+        refreshView();
+    }
+
     public void refreshView() {
-        var sensorData = SensorDataSingleton.getInstance();
+        var sensorData = SensorSingleton.getInstance();
         readingExhibit.setText(Integer.toString(sensorData.getCurrentReading()));
         minExhibit.setText(Integer.toString(sensorData.getMinReading()));
         maxExhibit.setText(Integer.toString(sensorData.getMaxReading()));
@@ -46,7 +43,7 @@ public class Controller {
 
     @FXML
     private void handleNewReadingButton() {
-        SensorDataSingleton sensorData = SensorDataSingleton.getInstance();
+        SensorSingleton sensorData = SensorSingleton.getInstance();
         int newReading = 0;
         try {
             newReading = Integer.parseInt(setReadingField.getText());
@@ -65,7 +62,7 @@ public class Controller {
 
     @FXML
     private void handleNewMaxValueButton() {
-        SensorDataSingleton sensorData = SensorDataSingleton.getInstance();
+        SensorSingleton sensorData = SensorSingleton.getInstance();
         int newMax = 0;
         try {
             newMax = Integer.parseInt(setMaxValueField.getText());
@@ -84,7 +81,7 @@ public class Controller {
 
     @FXML
     private void handleNewMinValueButton() {
-        SensorDataSingleton sensorData = SensorDataSingleton.getInstance();
+        SensorSingleton sensorData = SensorSingleton.getInstance();
         int newMin = 0;
         try {
             newMin = Integer.parseInt(setMinValueField.getText());

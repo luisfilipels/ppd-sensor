@@ -1,14 +1,14 @@
 package utils;
 
-public class SensorDataSingleton {
+public class SensorSingleton {
 
-    private static SensorDataSingleton instance;
+    private static SensorSingleton instance;
 
-    private SensorDataSingleton() {}
+    private SensorSingleton() {}
 
-    public static SensorDataSingleton getInstance() {
+    public static SensorSingleton getInstance() {
         if (instance == null) {
-            instance = new SensorDataSingleton();
+            instance = new SensorSingleton();
         }
         return instance;
     }
@@ -18,6 +18,8 @@ public class SensorDataSingleton {
     private Integer maxReading = null;
     private Integer minReading = null;
     private Integer currentReading = null;
+
+    private String sensorID = "";
 
     public boolean setMaxReading(int newMax) {
         if (minReading != null && newMax <= minReading) return false;
@@ -39,6 +41,12 @@ public class SensorDataSingleton {
     public boolean setSensorType(SensorType newType) {
         if (sensorType != null) return false;
         sensorType = newType;
+        return true;
+    }
+
+    public boolean setSensorID(String newID) {
+        if (!sensorID.equals("")) return false;
+        sensorID = newID;
         return true;
     }
 

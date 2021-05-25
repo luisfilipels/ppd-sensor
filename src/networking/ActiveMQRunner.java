@@ -2,15 +2,15 @@ package networking;
 
 import org.apache.activemq.ActiveMQConnection;
 import org.apache.activemq.ActiveMQConnectionFactory;
-import utils.SensorDataSingleton;
+import utils.SensorSingleton;
 
 import javax.jms.*;
 import java.util.concurrent.Semaphore;
 
-public class ActiveMQRunner implements Runnable{
+class ActiveMQRunner implements Runnable{
 
     private String url = ActiveMQConnection.DEFAULT_BROKER_URL;
-    Semaphore s = new Semaphore(0);
+    private Semaphore s = new Semaphore(0);
 
     private String messageToSend = "";
     public void setStringToSend(String string) {
@@ -33,7 +33,7 @@ public class ActiveMQRunner implements Runnable{
     @Override
     public void run(){
         try {
-            String topicName = SensorDataSingleton.getInstance().getSensorType().label;
+            String topicName = SensorSingleton.getInstance().getSensorType().label;
 
             ConnectionFactory connectionFactory = new ActiveMQConnectionFactory(url);
             Connection connection = connectionFactory.createConnection();
