@@ -1,5 +1,7 @@
 package utils;
 
+import networking.NetworkHandlerSingleton;
+
 public class SensorSingleton {
 
     private static SensorSingleton instance;
@@ -21,20 +23,43 @@ public class SensorSingleton {
 
     private String sensorID = "";
 
+    private void sendUpdateIfNeeded() {
+        NetworkHandlerSingleton handler = NetworkHandlerSingleton.getInstance();
+        if (currentReading >= maxReading) {
+            handler.sendMessage(sensorID + ": Alerta! " + sensorType.label + " passou do limite máximo de "
+                    + maxReading + "!");
+        } else if (currentReading <= minReading) {
+            handler.sendMessage(sensorID + ": Alerta! " + sensorType.label + " passou do limite mínimo de "
+                    + minReading + "!");
+        } else {
+            handler.sendMessage(sensorID + ": " + sensorType.label + " voltou para um valor aceitável.");
+        }
+    }
+
     public boolean setMaxReading(int newMax) {
         if (minReading != null && newMax <= minReading) return false;
         maxReading = newMax;
+        sendUpdateIfNeeded();
         return true;
     }
 
     public boolean setMinReading(int newMin) {
         if (maxReading != null && newMin >= maxReading) return false;
         minReading = newMin;
+        sendUpdateIfNeeded();
         return true;
     }
 
     public boolean setNewReading(int newReading) {
+        int oldReading = currentReading;
         currentReading = newReading;
+        if ((currentReading >= maxReading && oldReading < maxReading) ||
+                (currentReading <= minReading && oldReading > maxReading) ||
+                (currentReading < maxReading && oldReading >= maxReading) ||
+                (currentReading > minReading && oldReading <= minReading)
+        ) {
+            sendUpdateIfNeeded();
+        }
         return true;
     }
 
