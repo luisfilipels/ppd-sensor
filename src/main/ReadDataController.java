@@ -1,5 +1,6 @@
 package main;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -116,13 +117,18 @@ public class ReadDataController {
         int initialMin = Integer.parseInt(initialMinValueField.getText());
 
         SensorSingleton sensor = SensorSingleton.getInstance();
-        sensor.setMaxReading(initialMax);
-        sensor.setMinReading(initialMin);
-        sensor.setNewReading((initialMax + initialMin)/2);
-        sensor.setSensorType(type);
-        sensor.setSensorID(sensorIDField.getText());
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                sensor.setMaxReading(initialMax);
+                sensor.setMinReading(initialMin);
+                sensor.setNewReading((initialMax + initialMin)/2);
+                sensor.setSensorType(type);
+                sensor.setSensorID(sensorIDField.getText());
 
-        NetworkHandlerSingleton.getInstance().initialize();
+                NetworkHandlerSingleton.getInstance().initialize();
+            }
+        });
 
         Node source = (Node) event.getSource();
         Stage stage = (Stage) source.getScene().getWindow();
@@ -130,7 +136,7 @@ public class ReadDataController {
 
         try {
             Stage primaryStage = new Stage();
-            Parent root = FXMLLoader.load(getClass().getResource("../main/main.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("main.fxml"));
             primaryStage.setTitle("Othello P2P");
             primaryStage.setScene(new Scene(root, 600, 400));
             primaryStage.setResizable(false);

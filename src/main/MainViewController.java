@@ -1,5 +1,6 @@
 package main;
 
+import javafx.application.Platform;
 import javafx.scene.control.*;
 import javafx.scene.text.Text;
 import javafx.fxml.FXML;
@@ -36,9 +37,18 @@ public class MainViewController {
 
     public void refreshView() {
         var sensorData = SensorSingleton.getInstance();
-        readingExhibit.setText(Integer.toString(sensorData.getCurrentReading()));
-        minExhibit.setText(Integer.toString(sensorData.getMinReading()));
-        maxExhibit.setText(Integer.toString(sensorData.getMaxReading()));
+        if (sensorData.getCurrentReading() == null) {
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    refreshView();
+                }
+            });
+        } else {
+            readingExhibit.setText(Integer.toString(sensorData.getCurrentReading()));
+            minExhibit.setText(Integer.toString(sensorData.getMinReading()));
+            maxExhibit.setText(Integer.toString(sensorData.getMaxReading()));
+        }
     }
 
     @FXML

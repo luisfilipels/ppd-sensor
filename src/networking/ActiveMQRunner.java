@@ -9,6 +9,7 @@ import java.util.concurrent.Semaphore;
 
 class ActiveMQRunner implements Runnable{
 
+    //TODO: Change this
     private String url = ActiveMQConnection.DEFAULT_BROKER_URL;
     private Semaphore s = new Semaphore(0);
 
