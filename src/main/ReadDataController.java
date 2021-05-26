@@ -15,7 +15,6 @@ import networking.NetworkHandlerSingleton;
 import utils.SensorSingleton;
 import utils.SensorType;
 
-import java.io.IOException;
 import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -137,7 +136,7 @@ public class ReadDataController {
         try {
             Stage primaryStage = new Stage();
             Parent root = FXMLLoader.load(getClass().getResource("main.fxml"));
-            primaryStage.setTitle("Sensor");
+            primaryStage.setTitle("Sensor de " + type.label + " " + sensorIDField.getText());
             primaryStage.setScene(new Scene(root, 600, 400));
             primaryStage.setResizable(false);
             primaryStage.show();

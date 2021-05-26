@@ -45,7 +45,9 @@ public class MainViewController {
                 }
             });
         } else {
-            readingExhibit.setText(Integer.toString(sensorData.getCurrentReading()));
+            readingExhibit.setText(
+                    sensorData.getCurrentReading() + sensorData.getSensorType().measurementUnit
+            );
             minExhibit.setText(Integer.toString(sensorData.getMinReading()));
             maxExhibit.setText(Integer.toString(sensorData.getMaxReading()));
         }

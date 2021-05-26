@@ -34,7 +34,7 @@ class Publisher implements Runnable{
     @Override
     public void run(){
         try {
-            String topicName = SensorSingleton.getInstance().getSensorType().label;
+            String topicName = SensorSingleton.getInstance().getSensorType().topicName;
 
             ConnectionFactory connectionFactory = new ActiveMQConnectionFactory(url);
             Connection connection = connectionFactory.createConnection();
