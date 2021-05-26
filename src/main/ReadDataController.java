@@ -137,7 +137,7 @@ public class ReadDataController {
         try {
             Stage primaryStage = new Stage();
             Parent root = FXMLLoader.load(getClass().getResource("main.fxml"));
-            primaryStage.setTitle("Othello P2P");
+            primaryStage.setTitle("Sensor");
             primaryStage.setScene(new Scene(root, 600, 400));
             primaryStage.setResizable(false);
             primaryStage.show();

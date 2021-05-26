@@ -28,10 +28,10 @@ public class SensorSingleton {
         NetworkHandlerSingleton handler = NetworkHandlerSingleton.getInstance();
         if (currentReading >= maxReading) {
             handler.sendMessage(sensorID + ": Alerta! " + sensorType.label + " passou do limite máximo de "
-                    + maxReading + "!");
+                    + maxReading + "! Valor lido: " + currentReading);
         } else if (currentReading <= minReading) {
             handler.sendMessage(sensorID + ": Alerta! " + sensorType.label + " passou do limite mínimo de "
-                    + minReading + "!");
+                    + minReading + "! Valor lido: " + currentReading);
         } else {
             handler.sendMessage(sensorID + ": " + sensorType.label + " voltou para um valor aceitável.");
         }

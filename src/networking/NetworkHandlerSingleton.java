@@ -1,14 +1,12 @@
 package networking;
 
-import org.apache.activemq.ActiveMQConnection;
-
 public class NetworkHandlerSingleton {
 
-    private ActiveMQRunner runner;
+    private Publisher runner;
     private Thread t;
 
     private NetworkHandlerSingleton() {
-        runner = new ActiveMQRunner();
+        runner = new Publisher();
     }
 
     private static NetworkHandlerSingleton instance;

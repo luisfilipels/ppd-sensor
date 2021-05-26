@@ -7,7 +7,7 @@ import utils.SensorSingleton;
 import javax.jms.*;
 import java.util.concurrent.Semaphore;
 
-class ActiveMQRunner implements Runnable{
+class Publisher implements Runnable{
 
     //TODO: Change this
     private String url = ActiveMQConnection.DEFAULT_BROKER_URL;
