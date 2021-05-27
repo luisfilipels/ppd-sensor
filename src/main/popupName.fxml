@@ -10,15 +10,15 @@
    <children>
       <Button fx:id="confirmButton" layoutX="161.0" layoutY="380.0" mnemonicParsing="false" onAction="#onConfirmButton" prefHeight="44.0" prefWidth="87.0" text="Aceitar" />
       <TextField fx:id="remoteMachineAddressField" layoutX="62.0" layoutY="37.0" prefHeight="32.0" prefWidth="279.0" />
-      <Text layoutX="123.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Endereço da máquina remota" />
+      <Text layoutX="62.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Endereço do broker (vázio para localhost)" textAlignment="CENTER" wrappingWidth="279.0" />
       <RadioButton fx:id="temperatureButton" layoutX="62.0" layoutY="169.0" mnemonicParsing="false" onAction="#onRadioButtonClick" text="Temperatura" />
       <Text layoutX="65.0" layoutY="156.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tipo de sensor:" />
       <RadioButton fx:id="velocityButton" layoutX="62.0" layoutY="194.0" mnemonicParsing="false" onAction="#onRadioButtonClick" text="Velocidade" />
       <RadioButton fx:id="humidityButton" layoutX="62.0" layoutY="221.0" mnemonicParsing="false" onAction="#onRadioButtonClick" text="Umidade" />
-      <TextField fx:id="initialMaxValueField" layoutX="67.0" layoutY="283.0" />
-      <Text layoutX="67.0" layoutY="279.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Valor máximo inicial" />
-      <TextField fx:id="initialMinValueField" layoutX="67.0" layoutY="333.0" />
-      <Text layoutX="67.0" layoutY="329.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Valor mínimo inicial" />
+      <TextField fx:id="initialMaxValueField" layoutX="67.0" layoutY="312.0" />
+      <Text layoutX="67.0" layoutY="308.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Valor máximo inicial" />
+      <TextField fx:id="initialMinValueField" layoutX="67.0" layoutY="267.0" />
+      <Text layoutX="67.0" layoutY="263.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Valor mínimo inicial" />
       <TextField fx:id="sensorIDField" layoutX="62.0" layoutY="102.0" prefHeight="32.0" prefWidth="165.0" />
       <Text layoutX="62.0" layoutY="97.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Identificação do sensor" />
       <Button fx:id="randomIDButton" layoutX="237.0" layoutY="102.0" mnemonicParsing="false" onAction="#onRandomIDButton" prefHeight="32.0" prefWidth="105.0" text="ID aleatória" />

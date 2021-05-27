@@ -34,6 +34,8 @@ class Publisher implements Runnable{
     @Override
     public void run(){
         try {
+            System.out.println(url);
+            // TODO: Find out how to format an IP in the local network
             String topicName = SensorSingleton.getInstance().getSensorType().topicName;
 
             ConnectionFactory connectionFactory = new ActiveMQConnectionFactory(url);

@@ -18,7 +18,7 @@
             <StackPane layoutX="52.0" layoutY="9.0" prefHeight="56.0" prefWidth="200.0" />
             <Text fx:id="readingExhibit" fill="WHITE" layoutX="-4.0" layoutY="188.0" strokeType="OUTSIDE" strokeWidth="0.0" text="NaN" textAlignment="CENTER" wrappingWidth="311.13671875">
                <font>
-                  <Font size="94.0" />
+                  <Font size="72.0" />
                </font>
             </Text>
             <Text fill="WHITE" layoutX="112.0" layoutY="266.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Limites" textAlignment="CENTER">
