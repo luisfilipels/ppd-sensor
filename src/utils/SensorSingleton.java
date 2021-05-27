@@ -17,37 +17,65 @@ public class SensorSingleton {
 
     private SensorType sensorType = null;
 
-    private Integer maxReading = null;
-    private Integer minReading = null;
+    private Integer maxReadingLimit = null;
+    private Integer minReadingLimit = null;
     private Integer currentReading = null;
 
     private String sensorID = "";
+    private String brokerIP = "";
 
-    private void sendUpdateIfNeeded() {
-        if (currentReading == null || maxReading == null || minReading == null) return;
+    private void sendUpdate() {
+        if (currentReading == null || maxReadingLimit == null || minReadingLimit == null) return;
         NetworkHandlerSingleton handler = NetworkHandlerSingleton.getInstance();
-        if (currentReading >= maxReading) {
+        if (currentReading >= maxReadingLimit) {
             handler.sendMessage(sensorID + ": Alerta! " + sensorType.label + " passou do limite máximo de "
-                    + maxReading + "! Valor lido: " + currentReading);
-        } else if (currentReading <= minReading) {
+                    + maxReadingLimit + "! Valor lido: " + currentReading);
+        } else if (currentReading <= minReadingLimit) {
             handler.sendMessage(sensorID + ": Alerta! " + sensorType.label + " passou do limite mínimo de "
-                    + minReading + "! Valor lido: " + currentReading);
+                    + minReadingLimit + "! Valor lido: " + currentReading);
         } else {
             handler.sendMessage(sensorID + ": " + sensorType.label + " voltou para um valor aceitável.");
         }
     }
 
-    public boolean setMaxReading(int newMax) {
-        if (minReading != null && newMax <= minReading) return false;
-        maxReading = newMax;
-        sendUpdateIfNeeded();
+    private void sendMaxReadingChangeWarningIfNeeded() {
+        if (currentReading == null || maxReadingLimit == null) return;
+        NetworkHandlerSingleton handler = NetworkHandlerSingleton.getInstance();
+        if (currentReading < maxReadingLimit) {
+            handler.sendMessage(sensorID + ": " + sensorType.label +
+                    " voltou para um valor aceitável de "
+                    + minReadingLimit + "<" + currentReading + "<" + maxReadingLimit);
+        }
+    }
+
+    private void sendMinReadingChangeWarningIfNeeded() {
+        if (currentReading == null || minReadingLimit == null) return;
+        NetworkHandlerSingleton handler = NetworkHandlerSingleton.getInstance();
+        if (currentReading > minReadingLimit) {
+            handler.sendMessage(sensorID + ": " + sensorType.label +
+                    " voltou para um valor aceitável de "
+                    + minReadingLimit + "<" + currentReading + "<" + maxReadingLimit);
+        }
+    }
+
+    private boolean temperatureExceedsLimitsWithOldReadingOf(int oldReading) {
+        return (currentReading >= maxReadingLimit && oldReading < maxReadingLimit) ||
+                (currentReading <= minReadingLimit && oldReading > maxReadingLimit) ||
+                (currentReading < maxReadingLimit && oldReading >= maxReadingLimit) ||
+                (currentReading > minReadingLimit && oldReading <= minReadingLimit);
+    }
+
+    public boolean setMaxReadingLimit(int newMax) {
+        if (minReadingLimit != null && newMax <= minReadingLimit) return false;
+        maxReadingLimit = newMax;
+        sendMaxReadingChangeWarningIfNeeded();
         return true;
     }
 
-    public boolean setMinReading(int newMin) {
-        if (maxReading != null && newMin >= maxReading) return false;
-        minReading = newMin;
-        sendUpdateIfNeeded();
+    public boolean setMinReadingLimit(int newMin) {
+        if (maxReadingLimit != null && newMin >= maxReadingLimit) return false;
+        minReadingLimit = newMin;
+        sendMinReadingChangeWarningIfNeeded();
         return true;
     }
 
@@ -58,12 +86,8 @@ public class SensorSingleton {
         }
         int oldReading = currentReading;
         currentReading = newReading;
-        if ((currentReading >= maxReading && oldReading < maxReading) ||
-                (currentReading <= minReading && oldReading > maxReading) ||
-                (currentReading < maxReading && oldReading >= maxReading) ||
-                (currentReading > minReading && oldReading <= minReading)
-        ) {
-            sendUpdateIfNeeded();
+        if (temperatureExceedsLimitsWithOldReadingOf(oldReading)) {
+            sendUpdate();
         }
         return true;
     }
@@ -80,12 +104,17 @@ public class SensorSingleton {
         return true;
     }
 
-    public int getMaxReading() {
-        return maxReading;
+    public boolean setBrokerIP(String ip) {
+        brokerIP = ip;
+        return true;
     }
 
-    public int getMinReading() {
-        return minReading;
+    public int getMaxReadingLimit() {
+        return maxReadingLimit;
+    }
+
+    public int getMinReadingLimit() {
+        return minReadingLimit;
     }
 
     public Integer getCurrentReading() {
@@ -94,6 +123,10 @@ public class SensorSingleton {
 
     public SensorType getSensorType() {
         return sensorType;
+    }
+
+    public String getBrokerIP() {
+        return brokerIP;
     }
 
 }

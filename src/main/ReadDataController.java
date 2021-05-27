@@ -47,6 +47,9 @@ public class ReadDataController {
     @FXML
     private TextField sensorIDField;
 
+    @FXML
+    private TextField brokerAddressField;
+
     private static final String PATTERN =
             "^([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +
                     "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +
@@ -54,7 +57,7 @@ public class ReadDataController {
                     "([01]?\\d\\d?|2[0-4]\\d|25[0-5])$";
 
     // Got this function from StackOverFlow
-    public static boolean validate(final String ip){
+    public static boolean isValid(final String ip){
         Pattern pattern = Pattern.compile(PATTERN);
         Matcher matcher = pattern.matcher(ip);
         return matcher.matches();
@@ -85,6 +88,8 @@ public class ReadDataController {
     public void initialize() {
         temperatureButton.setSelected(true);
         type = SensorType.TEMPERATURE;
+        initialMaxValueField.setText("100");
+        initialMinValueField.setText("0");
     }
 
 
@@ -112,6 +117,11 @@ public class ReadDataController {
         // TODO: Select server IP
         // TODO: Validate values
 
+        String ip = brokerAddressField.getText().trim();
+        if (!ip.trim().equals("")) {
+            if (!isValid(ip)) return;
+        }
+
         int initialMax = Integer.parseInt(initialMaxValueField.getText());
         int initialMin = Integer.parseInt(initialMinValueField.getText());
 
@@ -119,11 +129,12 @@ public class ReadDataController {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                sensor.setMaxReading(initialMax);
-                sensor.setMinReading(initialMin);
+                sensor.setMaxReadingLimit(initialMax);
+                sensor.setMinReadingLimit(initialMin);
                 sensor.setNewReading((initialMax + initialMin)/2);
                 sensor.setSensorType(type);
                 sensor.setSensorID(sensorIDField.getText());
+                sensor.setBrokerIP(ip);
 
                 NetworkHandlerSingleton.getInstance().initialize();
             }

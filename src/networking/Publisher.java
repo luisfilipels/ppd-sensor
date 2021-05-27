@@ -13,6 +13,13 @@ class Publisher implements Runnable{
     private String url = ActiveMQConnection.DEFAULT_BROKER_URL;
     private Semaphore s = new Semaphore(0);
 
+    Publisher(String url) {
+        if (url.equals("")) {
+            url = "localhost";
+        }
+        this.url = "failover://tcp://" + url + ":61616";
+    }
+
     private String messageToSend = "";
     public void setStringToSend(String string) {
         messageToSend = string;

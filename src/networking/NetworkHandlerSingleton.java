@@ -1,13 +1,13 @@
 package networking;
 
+import utils.SensorSingleton;
+
 public class NetworkHandlerSingleton {
 
     private Publisher runner;
     private Thread t;
 
-    private NetworkHandlerSingleton() {
-        runner = new Publisher();
-    }
+    private NetworkHandlerSingleton() {}
 
     private static NetworkHandlerSingleton instance;
 
@@ -23,6 +23,8 @@ public class NetworkHandlerSingleton {
     }
 
     public void initialize() {
+        runner = new Publisher(SensorSingleton.getInstance().getBrokerIP());
+
         t = new Thread(runner);
         t.start();
     }

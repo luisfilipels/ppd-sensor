@@ -48,8 +48,8 @@ public class MainViewController {
             readingExhibit.setText(
                     sensorData.getCurrentReading() + sensorData.getSensorType().measurementUnit
             );
-            minExhibit.setText(Integer.toString(sensorData.getMinReading()));
-            maxExhibit.setText(Integer.toString(sensorData.getMaxReading()));
+            minExhibit.setText(Integer.toString(sensorData.getMinReadingLimit()));
+            maxExhibit.setText(Integer.toString(sensorData.getMaxReadingLimit()));
         }
     }
 
@@ -66,6 +66,7 @@ public class MainViewController {
         }
         boolean success = sensorData.setNewReading(newReading);
         if (success) {
+            setReadingField.clear();
             refreshView();
         } else {
             // TODO: Show message on UI
@@ -83,8 +84,9 @@ public class MainViewController {
             System.out.println("Couldn't set new max value!");
             return;
         }
-        boolean success = sensorData.setMaxReading(newMax);
+        boolean success = sensorData.setMaxReadingLimit(newMax);
         if (success) {
+            setMaxValueField.clear();
             refreshView();
         } else {
             // TODO: Show message on UI
@@ -102,8 +104,9 @@ public class MainViewController {
             System.out.println("Couldn't new min value!");
             return;
         }
-        boolean success = sensorData.setMinReading(newMin);
+        boolean success = sensorData.setMinReadingLimit(newMin);
         if (success) {
+            setMinValueField.clear();
             refreshView();
         } else {
             // TODO: Show message on UI
