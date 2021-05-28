@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import networking.NetworkHandlerSingleton;
 import utils.SensorSingleton;
@@ -49,6 +50,21 @@ public class ReadDataController {
 
     @FXML
     private TextField brokerAddressField;
+
+    @FXML
+    private Text emptyIDText;
+
+    @FXML
+    private Text invalidLimitsText;
+
+    @FXML
+    private Text invalidIPText;
+
+    @FXML
+    private Text invalidMinimumLimitText;
+
+    @FXML
+    private Text invalidMaximumLimitText;
 
     private static final String PATTERN =
             "^([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +
@@ -90,6 +106,11 @@ public class ReadDataController {
         type = SensorType.TEMPERATURE;
         initialMaxValueField.setText("100");
         initialMinValueField.setText("0");
+        emptyIDText.setOpacity(0);
+        invalidLimitsText.setOpacity(0);
+        invalidIPText.setOpacity(0);
+        invalidMaximumLimitText.setOpacity(0);
+        invalidMinimumLimitText.setOpacity(0);
     }
 
 
@@ -112,38 +133,74 @@ public class ReadDataController {
         }
     }
 
-    @FXML
-    public void onConfirmButton(ActionEvent event) {
-        // TODO: Select server IP
-        // TODO: Validate values
-
+    private boolean isValidIP() {
         String ip = brokerAddressField.getText().trim();
-        if (!ip.trim().equals("")) {
-            if (!isValid(ip)) return;
+        if (!ip.equals("") && !isValid(ip)) {
+            invalidIPText.setOpacity(1);
+            return false;
+        } else {
+            invalidIPText.setOpacity(0);
+            return true;
         }
+    }
 
-        int initialMax = Integer.parseInt(initialMaxValueField.getText());
-        int initialMin = Integer.parseInt(initialMinValueField.getText());
+    private boolean isValidSensorID() {
+        String id = sensorIDField.getText();
+        if (id.equals("")) {
+            emptyIDText.setOpacity(1);
+            return false;
+        } else {
+            emptyIDText.setOpacity(0);
+            return true;
+        }
+    }
 
-        SensorSingleton sensor = SensorSingleton.getInstance();
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                sensor.setMaxReadingLimit(initialMax);
-                sensor.setMinReadingLimit(initialMin);
-                sensor.setNewReading((initialMax + initialMin)/2);
-                sensor.setSensorType(type);
-                sensor.setSensorID(sensorIDField.getText());
-                sensor.setBrokerIP(ip);
+    private boolean limitsAreValid() {
+        boolean successfulConversion = true;
+        int initialMin = 0;
+        int initialMax = 100;
+        try {
+            initialMin = Integer.parseInt(initialMinValueField.getText());
+        } catch (NumberFormatException e) {
+            invalidMinimumLimitText.setText("Valor inválido!");
+            invalidMinimumLimitText.setOpacity(1);
+            successfulConversion = false;
+        }
+        try {
+            initialMax = Integer.parseInt(initialMaxValueField.getText());
+        } catch (NumberFormatException e) {
+            invalidMaximumLimitText.setText("Valor inválido!");
+            invalidMaximumLimitText.setOpacity(1);
+            successfulConversion = false;
+        }
+        if (!successfulConversion) {
+            invalidLimitsText.setOpacity(0);
+            return false;
+        }
+        invalidMaximumLimitText.setOpacity(0);
+        invalidMinimumLimitText.setOpacity(0);
 
-                NetworkHandlerSingleton.getInstance().initialize();
-            }
-        });
+        if (initialMax <= initialMin) {
+            invalidLimitsText.setOpacity(1);
+            return false;
+        }
+        return true;
+    }
 
+    private boolean areValidReadValues() {
+        boolean isValidIP = isValidIP();
+        boolean isValidSensorID = isValidSensorID();
+        boolean limitsAreValid = limitsAreValid();
+        return isValidIP && isValidSensorID && limitsAreValid;
+    }
+
+    private void closeWindow(ActionEvent event) {
         Node source = (Node) event.getSource();
         Stage stage = (Stage) source.getScene().getWindow();
         stage.close();
+    }
 
+    private void openMainWindow() {
         try {
             Stage primaryStage = new Stage();
             Parent root = FXMLLoader.load(getClass().getResource("main.fxml"));
@@ -154,6 +211,36 @@ public class ReadDataController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    public void onConfirmButton(ActionEvent event) {
+        if (!areValidReadValues()) {
+            return;
+        }
+
+        String ip = brokerAddressField.getText().trim();
+        String sensorId = sensorIDField.getText();
+        int initialMin = Integer.parseInt(initialMinValueField.getText());
+        int initialMax = Integer.parseInt(initialMaxValueField.getText());
+
+        SensorSingleton sensor = SensorSingleton.getInstance();
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                sensor.setMaxReadingLimit(initialMax);
+                sensor.setMinReadingLimit(initialMin);
+                sensor.setNewReading((initialMax + initialMin)/2);
+                sensor.setSensorType(type);
+                sensor.setSensorID(sensorId);
+                sensor.setBrokerIP(ip);
+
+                NetworkHandlerSingleton.getInstance().initialize();
+            }
+        });
+
+        closeWindow(event);
+        openMainWindow();
     }
 
 }

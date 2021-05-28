@@ -12,7 +12,7 @@
       <TextField fx:id="brokerAddressField" layoutX="62.0" layoutY="37.0" prefHeight="32.0" prefWidth="279.0" />
       <Text layoutX="62.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Endereço do broker (vázio para localhost)" textAlignment="CENTER" wrappingWidth="279.0" />
       <RadioButton fx:id="temperatureButton" layoutX="62.0" layoutY="169.0" mnemonicParsing="false" onAction="#onRadioButtonClick" text="Temperatura" />
-      <Text layoutX="65.0" layoutY="156.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tipo de sensor:" />
+      <Text layoutX="65.0" layoutY="163.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tipo de sensor:" />
       <RadioButton fx:id="velocityButton" layoutX="62.0" layoutY="194.0" mnemonicParsing="false" onAction="#onRadioButtonClick" text="Velocidade" />
       <RadioButton fx:id="humidityButton" layoutX="62.0" layoutY="221.0" mnemonicParsing="false" onAction="#onRadioButtonClick" text="Umidade" />
       <TextField fx:id="initialMaxValueField" layoutX="67.0" layoutY="312.0" />
@@ -22,5 +22,10 @@
       <TextField fx:id="sensorIDField" layoutX="62.0" layoutY="102.0" prefHeight="32.0" prefWidth="165.0" />
       <Text layoutX="62.0" layoutY="97.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Identificação do sensor" />
       <Button fx:id="randomIDButton" layoutX="237.0" layoutY="102.0" mnemonicParsing="false" onAction="#onRandomIDButton" prefHeight="32.0" prefWidth="105.0" text="ID aleatória" />
+      <Text fx:id="emptyIDText" fill="RED" layoutX="63.0" layoutY="147.0" strokeType="OUTSIDE" strokeWidth="0.0" text="A identificação não pode estar vazia!" />
+      <Text fx:id="invalidLimitsText" fill="RED" layoutX="67.0" layoutY="352.0" strokeType="OUTSIDE" strokeWidth="0.0" text="O valor máximo não pode ser menor nem igual ao inicial!" />
+      <Text fx:id="invalidIPText" fill="RED" layoutX="63.0" layoutY="82.0" strokeType="OUTSIDE" strokeWidth="0.0" text="IP inválido!" />
+      <Text fx:id="invalidMaximumLimitText" fill="RED" layoutX="226.0" layoutY="329.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Não pode estar vazio!" />
+      <Text fx:id="invalidMinimumLimitText" fill="RED" layoutX="226.0" layoutY="284.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Não pode estar vazio!" />
    </children>
 </Pane>
