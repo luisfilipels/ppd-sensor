@@ -23,7 +23,7 @@
       <Text layoutX="62.0" layoutY="97.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Identificação do sensor" />
       <Button fx:id="randomIDButton" layoutX="237.0" layoutY="102.0" mnemonicParsing="false" onAction="#onRandomIDButton" prefHeight="32.0" prefWidth="105.0" text="ID aleatória" />
       <Text fx:id="emptyIDText" fill="RED" layoutX="63.0" layoutY="147.0" strokeType="OUTSIDE" strokeWidth="0.0" text="A identificação não pode estar vazia!" />
-      <Text fx:id="invalidLimitsText" fill="RED" layoutX="67.0" layoutY="352.0" strokeType="OUTSIDE" strokeWidth="0.0" text="O valor máximo não pode ser menor nem igual ao inicial!" />
+      <Text fx:id="invalidLimitsText" fill="RED" layoutX="67.0" layoutY="352.0" strokeType="OUTSIDE" strokeWidth="0.0" text="O valor máximo não pode ser menor nem igual ao mínimo!" />
       <Text fx:id="invalidIPText" fill="RED" layoutX="63.0" layoutY="82.0" strokeType="OUTSIDE" strokeWidth="0.0" text="IP inválido!" />
       <Text fx:id="invalidMaximumLimitText" fill="RED" layoutX="226.0" layoutY="329.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Não pode estar vazio!" />
       <Text fx:id="invalidMinimumLimitText" fill="RED" layoutX="226.0" layoutY="284.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Não pode estar vazio!" />

@@ -60,15 +60,19 @@
                   </Text>
                   <Line endX="100.0" layoutX="115.0" layoutY="46.0" startX="-100.0" stroke="#aeaeae" />
                   <TextField fx:id="setReadingField" layoutX="16.0" layoutY="82.0" onAction="#handleNewReadingButton" />
-                  <Text fill="#bebebe" layoutX="16.0" layoutY="78.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Novo valor" />
+                  <Text fill="#bebebe" layoutX="16.0" layoutY="78.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Novo valor de leitura" />
                   <Button fx:id="confirmNewReading" layoutX="176.0" layoutY="82.0" mnemonicParsing="false" onAction="#handleNewReadingButton" text="CONFIRMAR" />
                   <Separator layoutX="17.0" layoutY="134.0" opacity="0.27" prefHeight="1.0" prefWidth="261.0" />
                   <TextField fx:id="setMinValueField" layoutX="17.0" layoutY="160.0" onAction="#handleNewMinValueButton" />
                   <Text fill="#bebebe" layoutX="17.0" layoutY="156.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Valor mínimo" />
                   <Button fx:id="confirmNewMinValue" layoutX="177.0" layoutY="160.0" mnemonicParsing="false" onAction="#handleNewMinValueButton" text="CONFIRMAR" />
-                  <TextField fx:id="setMaxValueField" layoutX="17.0" layoutY="211.0" onAction="#handleNewMaxValueButton" />
-                  <Text fill="#bebebe" layoutX="17.0" layoutY="207.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Valor máximo" />
-                  <Button fx:id="confirmNewMaxValue" layoutX="177.0" layoutY="211.0" mnemonicParsing="false" onAction="#handleNewMaxValueButton" text="CONFIRMAR" />
+                  <TextField fx:id="setMaxValueField" layoutX="17.0" layoutY="223.0" onAction="#handleNewMaxValueButton" />
+                  <Text fill="#bebebe" layoutX="17.0" layoutY="219.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Valor máximo" />
+                  <Button fx:id="confirmNewMaxValue" layoutX="177.0" layoutY="223.0" mnemonicParsing="false" onAction="#handleNewMaxValueButton" text="CONFIRMAR" />
+                  <Text fx:id="invalidReadingText" fill="#faff00" layoutX="17.0" layoutY="120.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Valor inválido!" />
+                  <Text fx:id="invalidMinimumText" fill="#faff00" layoutX="17.0" layoutY="196.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Valor inválido!" />
+                  <Text fx:id="invalidMaximumText" fill="#faff00" layoutX="17.0" layoutY="261.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Valor inválido!" />
+                  <Text fx:id="invalidMinMaxText" fill="#faff00" layoutX="66.0" layoutY="293.0" strokeType="OUTSIDE" strokeWidth="0.0" text="O valor mínimo não pode ser maior ou igual ao máximo!" textAlignment="CENTER" wrappingWidth="163.5078125" />
                </children>
             </Pane>
          </children>

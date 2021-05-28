@@ -31,7 +31,20 @@ public class MainViewController {
     private Button confirmNewMinValue;
 
     @FXML
+    private Text invalidReadingText;
+    @FXML
+    private Text invalidMinimumText;
+    @FXML
+    private Text invalidMaximumText;
+    @FXML
+    private Text invalidMinMaxText;
+
+    @FXML
     void initialize() {
+        invalidReadingText.setOpacity(0);
+        invalidMinimumText.setOpacity(0);
+        invalidMaximumText.setOpacity(0);
+        invalidMinMaxText.setOpacity(0);
         refreshView();
     }
 
@@ -60,16 +73,15 @@ public class MainViewController {
         try {
             newReading = Integer.parseInt(setReadingField.getText());
         } catch (Exception e) {
-            // TODO: Show message on UI
+            invalidReadingText.setOpacity(1);
             System.out.println("Couldn't get new reading!");
             return;
         }
         boolean success = sensorData.setNewReading(newReading);
         if (success) {
             setReadingField.clear();
+            invalidReadingText.setOpacity(0);
             refreshView();
-        } else {
-            // TODO: Show message on UI
         }
     }
 
@@ -80,16 +92,18 @@ public class MainViewController {
         try {
             newMax = Integer.parseInt(setMaxValueField.getText());
         } catch (Exception e) {
-            // TODO: Show message on UI
+            invalidMaximumText.setOpacity(1);
             System.out.println("Couldn't set new max value!");
             return;
         }
         boolean success = sensorData.setMaxReadingLimit(newMax);
         if (success) {
             setMaxValueField.clear();
+            invalidMinMaxText.setOpacity(0);
+            invalidMaximumText.setOpacity(0);
             refreshView();
         } else {
-            // TODO: Show message on UI
+            invalidMinMaxText.setOpacity(1);
         }
     }
 
@@ -100,16 +114,18 @@ public class MainViewController {
         try {
             newMin = Integer.parseInt(setMinValueField.getText());
         } catch (Exception e) {
-            // TODO: Show message on UI
+            invalidMinimumText.setOpacity(1);
             System.out.println("Couldn't new min value!");
             return;
         }
         boolean success = sensorData.setMinReadingLimit(newMin);
         if (success) {
             setMinValueField.clear();
+            invalidMinMaxText.setOpacity(0);
+            invalidMinimumText.setOpacity(0);
             refreshView();
         } else {
-            // TODO: Show message on UI
+            invalidMinMaxText.setOpacity(1);
         }
     }
 
