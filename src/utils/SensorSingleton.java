@@ -28,54 +28,64 @@ public class SensorSingleton {
         if (currentReading == null || maxReadingLimit == null || minReadingLimit == null) return;
         NetworkHandlerSingleton handler = NetworkHandlerSingleton.getInstance();
         if (currentReading >= maxReadingLimit) {
-            handler.sendMessage(sensorID + ": Alerta! " + sensorType.label + " passou do limite máximo de "
+            handler.sendMessage(sensorID + ": Alerta! " + sensorType.label + " >= "
                     + maxReadingLimit + "! Valor lido: " + currentReading);
         } else if (currentReading <= minReadingLimit) {
-            handler.sendMessage(sensorID + ": Alerta! " + sensorType.label + " passou do limite mínimo de "
+            handler.sendMessage(sensorID + ": Alerta! " + sensorType.label + " <= "
                     + minReadingLimit + "! Valor lido: " + currentReading);
         } else {
-            handler.sendMessage(sensorID + ": " + sensorType.label + " voltou para um valor aceitável.");
+            handler.sendMessage(sensorID + ": " + sensorType.label +
+                    " voltou para um valor aceitável de "
+                    + minReadingLimit + "<" + currentReading + "<" + maxReadingLimit);
         }
     }
 
-    private void sendMaxReadingChangeWarningIfNeeded() {
+    private void sendMaxReadingChangeWarningIfNeeded(int oldMax) {
         if (currentReading == null || maxReadingLimit == null) return;
         NetworkHandlerSingleton handler = NetworkHandlerSingleton.getInstance();
-        if (currentReading < maxReadingLimit) {
+        if (currentReading < maxReadingLimit && currentReading >= oldMax) {
             handler.sendMessage(sensorID + ": " + sensorType.label +
                     " voltou para um valor aceitável de "
                     + minReadingLimit + "<" + currentReading + "<" + maxReadingLimit);
+        } else if (currentReading >= maxReadingLimit) {
+            handler.sendMessage(sensorID + ": Alerta! " + sensorType.label + " >= "
+                    + maxReadingLimit + "! Valor lido: " + currentReading);
         }
     }
 
-    private void sendMinReadingChangeWarningIfNeeded() {
+    private void sendMinReadingChangeWarningIfNeeded(int oldMin) {
         if (currentReading == null || minReadingLimit == null) return;
         NetworkHandlerSingleton handler = NetworkHandlerSingleton.getInstance();
-        if (currentReading > minReadingLimit) {
+        if (currentReading > minReadingLimit && currentReading <= oldMin) {
             handler.sendMessage(sensorID + ": " + sensorType.label +
                     " voltou para um valor aceitável de "
                     + minReadingLimit + "<" + currentReading + "<" + maxReadingLimit);
+        } else if (currentReading <= minReadingLimit) {
+            handler.sendMessage(sensorID + ": Alerta! " + sensorType.label + " <= "
+                    + minReadingLimit + "! Valor lido: " + currentReading);
         }
     }
 
     private boolean temperatureExceedsLimitsWithOldReadingOf(int oldReading) {
         return (currentReading >= maxReadingLimit && oldReading < maxReadingLimit) ||
-                (currentReading <= minReadingLimit && oldReading > maxReadingLimit) ||
+                (currentReading <= minReadingLimit && oldReading > minReadingLimit) ||
                 (currentReading < maxReadingLimit && oldReading >= maxReadingLimit) ||
                 (currentReading > minReadingLimit && oldReading <= minReadingLimit);
     }
 
     public boolean setMaxReadingLimit(int newMax) {
         if (minReadingLimit != null && newMax <= minReadingLimit) return false;
+        int oldMax = maxReadingLimit == null ? Integer.MAX_VALUE : maxReadingLimit;
         maxReadingLimit = newMax;
-        sendMaxReadingChangeWarningIfNeeded();
+        sendMaxReadingChangeWarningIfNeeded(oldMax);
         return true;
     }
 
     public boolean setMinReadingLimit(int newMin) {
         if (maxReadingLimit != null && newMin >= maxReadingLimit) return false;
+        int oldMin = minReadingLimit == null ? Integer.MIN_VALUE : minReadingLimit;
         minReadingLimit = newMin;
-        sendMinReadingChangeWarningIfNeeded();
+        sendMinReadingChangeWarningIfNeeded(oldMin);
         return true;
     }
 
