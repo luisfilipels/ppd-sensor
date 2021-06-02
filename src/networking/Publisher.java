@@ -9,8 +9,7 @@ import java.util.concurrent.Semaphore;
 
 class Publisher implements Runnable{
 
-    //TODO: Change this
-    private String url = ActiveMQConnection.DEFAULT_BROKER_URL;
+    private String url;
     private Semaphore s = new Semaphore(0);
 
     Publisher(String url) {
@@ -55,7 +54,7 @@ class Publisher implements Runnable{
 
             while (true) {
                 TextMessage message = session.createTextMessage();
-                message.setText(acquireMessageToSend());
+                message.setText(acquireMessageToSend()); // Holds until a new message is available
                 publisher.send(message);
             }
         } catch (JMSException e) {

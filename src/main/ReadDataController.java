@@ -73,6 +73,7 @@ public class ReadDataController {
                     "([01]?\\d\\d?|2[0-4]\\d|25[0-5])$";
 
     // Got this function from StackOverFlow
+    // Checks if the string is a valid IP, such as 192.168.0.1
     public static boolean isValid(final String ip){
         Pattern pattern = Pattern.compile(PATTERN);
         Matcher matcher = pattern.matcher(ip);
@@ -162,6 +163,7 @@ public class ReadDataController {
         try {
             initialMin = Integer.parseInt(initialMinValueField.getText());
         } catch (NumberFormatException e) {
+            // A non-numerical value was inserted
             invalidMinimumLimitText.setText("Valor inválido!");
             invalidMinimumLimitText.setOpacity(1);
             successfulConversion = false;
@@ -174,11 +176,14 @@ public class ReadDataController {
             successfulConversion = false;
         }
         if (!successfulConversion) {
+            // Some non-numerical value was inserted as a limit
+            // as such, the error message that says the minimum is greater
+            // than the maximum should be hidden
             invalidLimitsText.setOpacity(0);
             return false;
         }
         invalidMaximumLimitText.setOpacity(0);
-        invalidMinimumLimitText.setOpacity(0);
+        invalidMinimumLimitText.setOpacity(0);  // The limits are valid
 
         if (initialMax <= initialMin) {
             invalidLimitsText.setOpacity(1);
